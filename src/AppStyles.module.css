@@ -1,0 +1,13 @@
+.common {
+  color: red;
+}
+
+.paragraph {
+  composes: common;
+  margin-left: 30px;
+}
+
+.btn {
+  border-radius: 10px;
+  outline: none;
+}
