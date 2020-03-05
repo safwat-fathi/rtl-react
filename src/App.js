@@ -8,25 +8,23 @@ import DirectionProvider, {
 // import classNames from "classnames/bind";
 /* rtl-css-js pack */
 import rtlConvert from "rtl-css-js";
-import flipCSSProp from "./flipCss";
+import { flipCSSProp, mergeStyles } from "./styleHelper";
 
 function Heading({ ...props }) {
   let style = {
-    asd: {
+    heading: {
       color: "yellowgreen",
-      paddingLeft: 20
+      textAlign: "left"
     }
   };
+  console.log(props.rtl, props.rtl);
 
   return (
     <>
-      <h1
-        style={{
-          /* ...style.asd, */
-          ...flipCSSProp(rtlConvert, props.rtl, style.asd)
-        }}
-      >
-        this heading have the same style (asd)
+      <h1 style={{ ...flipCSSProp(rtlConvert, props.rtl, style.heading) }}>
+        {props.rtl
+          ? `هذا العنوان منسق من خلال (asd)`
+          : `this heading have the same style (asd)`}
       </h1>
     </>
   );
@@ -46,11 +44,11 @@ export default class App extends Component {
       borderRadius: 10,
       outline: "none"
     },
-    asd: {
+    theme: {
       color: "red",
       fontSize: 40
     },
-    paragraph: {
+    padding: {
       paddingLeft: 30
     }
   };
@@ -62,7 +60,11 @@ export default class App extends Component {
       >
         <div>
           <button
-            style={{ ...this.style.btn, ...this.style.asd }}
+            style={flipCSSProp(
+              rtlConvert,
+              this.state.rtl,
+              mergeStyles(this.style.btn, this.style.theme, this.style.padding)
+            )}
             onClick={this.toggleDir}
           >
             {this.state.rtl ? `EN` : `ع`}
@@ -72,11 +74,7 @@ export default class App extends Component {
           <Heading rtl={this.state.rtl} />
           <h1>أهلا و سهلا بكم</h1>
           <p
-            style={flipCSSProp(
-              rtlConvert,
-              this.state.rtl,
-              this.style.paragraph
-            )}
+            style={flipCSSProp(rtlConvert, this.state.rtl, this.style.padding)}
           >
             مرحبا بكم فى هذه النسخة العربية من التطبيق
           </p>
